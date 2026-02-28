@@ -1,0 +1,44 @@
+services:
+  app:
+    build:
+      context: .
+      target: dev
+    working_dir: /var/www
+    env_file: .env
+    environment:
+      PORT: "8080"
+      DB_HOST: mysql
+    command: php artisan octane:start --server=frankenphp --host=0.0.0.0 --port=8080 --max-requests=1
+    volumes:
+      - .:/var/www
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql
+
+  vite:
+    build:
+      context: .
+      target: frontend
+    working_dir: /var/www
+    volumes:
+      - .:/var/www
+      - /var/www/node_modules
+    ports:
+      - "5173:5173"
+    command: npm run dev -- --host 0.0.0.0 --port 5173
+    environment:
+      CHOKIDAR_USEPOLLING: "true"
+
+  mysql:
+    image: mysql:8.4
+    volumes:
+      - mysql_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: laravel
+
+volumes:
+  mysql_data:

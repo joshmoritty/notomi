@@ -1,0 +1,12 @@
+.git
+.env.local
+.env.*.local
+node_modules
+storage/logs
+storage/framework/cache
+storage/framework/sessions
+bootstrap/cache
+vendor
+.vscode
+.idea
+*.log
