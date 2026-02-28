@@ -17,7 +17,7 @@ RUN npm ci
 COPY resources ./resources
 RUN npm run build
 
-FROM dunglas/frankenphp:latest AS base
+FROM dunglas/frankenphp:php8.4 AS base
 RUN install-php-extensions \
     pdo_mysql \
     mbstring \
